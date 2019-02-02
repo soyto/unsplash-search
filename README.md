@@ -15,3 +15,9 @@ Run `ng serve` or `npm run start` for a dev server. Navigate to `http://localhos
 ### Build
 
 Run `ng build` or `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+### Publish on gh-pages
+
+Do a normal git commit
+
+Run `npm run build` for production, then `git subtree push --prefix dist origin gh-pages` to publish on `gh-pages` branch

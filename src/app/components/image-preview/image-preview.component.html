@@ -1,0 +1,8 @@
+<div class="wrapper" [class.show]="currentImage" (click)="onClick_close()">
+  <div class="overlay"></div>
+  <div class="img-wrapper">
+    <img class="img"
+         [class.show]="currentImage"
+         [(src)]="currentImageUrl" />
+  </div>
+</div>

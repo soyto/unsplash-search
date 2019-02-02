@@ -1,0 +1,101 @@
+<div class="container-fluid mt-4 mb-4" (window:scroll)="onScroll_window()">
+
+  <!-- Search box -->
+  <div class="row justify-content-center search-box first-empty" [class.first-empty]="$$state.firstEmpty">
+    <div class="col-12 col-md-6">
+      <h1 class="text-center">Unsplash Search</h1>
+      <div class="form-group">
+        <div class="input-group">
+          <input  #search_input
+                  type="text"
+                  class="form-control"
+                  [placeholder]="$$state.firstEmpty ? 'Put your search terms here': 'Search again'"
+                  placeholder="Put your search terms here"
+                  [(disabled)]="$$state.searching"
+                  [(ngModel)]="searchInput"
+                  (keydown)="onKeydown_searchInput($event)"
+          >
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary"
+                    [(disabled)]="$$state.searching"
+                    (click)="onClick_search()">
+              <i *ngIf="!$$state.searching" class="fa fa-search"></i>
+              <i *ngIf="$$state.searching" class="fa fa-spin fa-spinner"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Search box -->
+
+  <!-- Result count row -->
+  <div class="row" *ngIf="searchResult.currentPage > 0 && searchResult.total > 0">
+    <div class="col-12 text-center mt-4">
+      <h3>Found {{searchResult.total | number}} images of "<em>{{searchResult.searchTerm}}</em>"</h3>
+    </div>
+  </div>
+  <!-- /Result count row -->
+
+  <!-- Empty results row -->
+  <div class="row justify-content-center" *ngIf="$$state.empty">
+    <div class="col-12 col-md-6 text-center mt-5">
+      <h3>We couldn't find any image for "<em>{{searchResult.searchTerm}}</em>"</h3>
+      <h4>Try again please</h4>
+      <img class="img img-fluid mt-4" src="/assets/img/emptyResults.png">
+    </div>
+  </div>
+  <!-- /Empty results row -->
+
+  <!-- There was an error -->
+  <div class="row justify-content-center" *ngIf="$$state.isError">
+    <div class="col-12 col-md-6 text-center mt-5">
+      <h3>Oops something broke</h3>
+      <h4>Please, try again later</h4>
+      <img class="img img-fluid mt-4" src="/assets/img/emptyResults.png">
+    </div>
+  </div>
+  <!-- /There was an error -->
+
+  <!-- Results row -->
+  <div class="row justify-content-center">
+
+    <!-- Items -->
+    <div class="col-12" *ngIf="searchResult.currentPage > 0 || $$state.searching">
+      <div class="grid">
+
+        <div class="item"
+             *ngFor="let item of searchResult.results; index as $index"
+             [class.item--medium]="item.width >= item.height"
+             [class.item--large]="item.width < item.height"
+             (click)="onClick_selectImage(item)"
+             @fadeIn>
+          <div class="item-image"
+               [style.background-image]="sanitizer.bypassSecurityTrustStyle('url(\'' + item.urls.small + '\')')">
+          </div>
+          <div class="item-caption">
+            <p>{{ item.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Items -->
+
+    <!-- Load more -->
+    <div class="col-12 text-center mt-4 mb-4" *ngIf="searchResult.currentPage > 1 && searchResult.currentPage < searchResult.total_pages">
+      <button class="btn btn-outline-primary btn-lg" (click)="onClick_loadMore()" *ngIf="!$$state.loadingMore">Load more</button>
+      <i *ngIf="$$state.loadingMore" class="fa fa-spin fa-spinner"></i>
+    </div>
+    <!-- /Load more -->
+
+  </div>
+  <!-- /Results row -->
+
+</div>
+
+<!-- Image preview -->
+<app-image-preview
+    [currentImage]="selectedImage"
+    (close)="onImagePreview_close()"
+></app-image-preview>
+<!-- /Image preview -->

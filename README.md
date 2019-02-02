@@ -2,6 +2,20 @@
 
 Small test project that search images on [Unsplash](https://unsplash.com/)
 
+## Specifications
+- Must search images on unsplash given a search term introduced by the user and show the results.
+- User can view images full size
+- Must be done on Angular
+
+## Features
+- [x] Can search images on unsplash given
+- [x] Can show the images
+- [x] Can load more images alterning with "infinite scroll" and "load more" button
+- [x] If search doesn't produce results, show an empty screen
+- [x] If there is any issue on saerch, show error screen
+- [x] User can click on images to view em at full size
+- [x] Full size images are loaded on background using "imagesloaded" technique. 
+
 ### Navigators
 
 Tested with: 

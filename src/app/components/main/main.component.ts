@@ -2,7 +2,6 @@ import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from '@angular/
 import {UnsplashImage} from '../../models/UnsplashImage';
 import {UnsplashService} from '../../services/unsplash.service';
 import {TimeTriggerService} from '../../services/time-trigger.service';
-import {UnsplashSearchResult} from '../../models/UnsplashSearchResult';
 import {DomSanitizer} from '@angular/platform-browser';
 import {animate, style, transition, trigger} from '@angular/animations';
 
@@ -27,7 +26,6 @@ export class MainComponent implements OnInit {
   @ViewChild('search_input') searchInputElement: ElementRef;
   @Input() searchInput: string;
 
-  emptyImageUrl: string;
   selectedImage: UnsplashImage;
 
   searchResult: {
@@ -50,7 +48,8 @@ export class MainComponent implements OnInit {
       private unsplashService: UnsplashService,
       private timeTrigger: TimeTriggerService,
       public sanitizer: DomSanitizer
-  ) {}
+  ) {
+  }
 
   /**
    *  On init
@@ -64,8 +63,6 @@ export class MainComponent implements OnInit {
       results: new Array<UnsplashImage>(),
       currentPage: null
     };
-
-    this.emptyImageUrl = window.location.origin + '/assets/img/emptyResults.png';
 
     // Auto focus the element
     this.searchInputElement.nativeElement.focus();

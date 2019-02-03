@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {UnsplashImage} from '../../models/UnsplashImage';
 import {UnsplashService} from '../../services/unsplash.service';
 import {TimeTriggerService} from '../../services/time-trigger.service';
@@ -8,7 +8,6 @@ import {animate, style, transition, trigger} from '@angular/animations';
 
 const NAME = 'app-main';
 const SEARCH_TIMEOUT_NAME = NAME + '.search';
-const NUM_PLACEHOLDER_ITEMS = 50;
 
 @Component({
   selector: 'app-main',
@@ -28,6 +27,7 @@ export class MainComponent implements OnInit {
   @ViewChild('search_input') searchInputElement: ElementRef;
   @Input() searchInput: string;
 
+  emptyImageUrl: string;
   selectedImage: UnsplashImage;
 
   searchResult: {
@@ -64,6 +64,8 @@ export class MainComponent implements OnInit {
       results: new Array<UnsplashImage>(),
       currentPage: null
     };
+
+    this.emptyImageUrl = window.location.origin + '/assets/img/emptyResults.png';
 
     // Auto focus the element
     this.searchInputElement.nativeElement.focus();

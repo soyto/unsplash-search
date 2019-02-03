@@ -43,6 +43,14 @@
     width: 80vw;
     height: auto;
     object-fit: contain;
+
+    @media screen and (min-width: 992px) {
+      width: 40vw;
+    }
+
+    @media screen and (min-width: 1200px) {
+      width: 30vw;
+    }
   }
 
 

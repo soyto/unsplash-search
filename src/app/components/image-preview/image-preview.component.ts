@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {UnsplashImage} from '../../models/UnsplashImage';
 import {ImageLoadService} from '../../services/image-load.service';
 
@@ -30,8 +30,11 @@ export class ImagePreviewComponent implements OnInit {
       // Now wait till we load full url
       this.imageLoadService.imageLoad(this.currentUnasplashImage.urls.full).then(() => {
 
-        // And then, set it
-        this.currentImageUrl = this.currentUnasplashImage.urls.full;
+        // And then, set it if it still exists
+        if (this.currentUnasplashImage) {
+          this.currentImageUrl = this.currentUnasplashImage.urls.full;
+        }
+        
       });
     } else { // When no value
       this.currentImageUrl = '';
@@ -60,6 +63,13 @@ export class ImagePreviewComponent implements OnInit {
    */
   onClick_close(): void {
     this.close.next();
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onDocument_keydown(args: any): void {
+    if (args.keyCode === 27 && !args.altKey && !args.shiftKey && !args.ctrlKey && this.currentUnasplashImage) {
+      this.close.next();
+    }
   }
 
 

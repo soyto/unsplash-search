@@ -34,7 +34,7 @@ export class ImagePreviewComponent implements OnInit {
         if (this.currentUnasplashImage) {
           this.currentImageUrl = this.currentUnasplashImage.urls.full;
         }
-        
+
       });
     } else { // When no value
       this.currentImageUrl = '';
@@ -65,8 +65,14 @@ export class ImagePreviewComponent implements OnInit {
     this.close.next();
   }
 
+  /**
+   * Hot listener to watch keydown events on the document
+   * @param args event arguments
+   */
   @HostListener('document:keydown', ['$event'])
   onDocument_keydown(args: any): void {
+
+    // If keycode == 25 and didn't used any combo and we are showing an iamge
     if (args.keyCode === 27 && !args.altKey && !args.shiftKey && !args.ctrlKey && this.currentUnasplashImage) {
       this.close.next();
     }
